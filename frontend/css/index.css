@@ -148,6 +148,31 @@ body {
   background: #0747a6;
 }
 
+.btn-primary-1 {
+  background: #0052CC;
+  font-size: 16px;
+  color: #fff;
+  padding: 6px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+.btn-primary-1:hover {
+  background: #0747a6;
+}
+
+.Explore-link{
+  color: #535456;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  padding-left: 20px;
+}
+.Explore-link:hover {
+  color: #0052CC;
+}
+
 .demo-section {
   position: relative;
   display: flex;
@@ -228,20 +253,105 @@ body {
     padding: 10px 20px;
   }
 }
-/* Content1 Image below Get Started button */
+.container {  
+  width: 90%; /* or same width as your video section */
+    max-width: 1200px; /* optional, keeps content from stretching too wide on large screens */
+    margin: 0 auto; /* centers the container */
+}
+
 .content1 {
-  display: flex;
-  justify-content: flex-start; /* aligns image to left */
-  margin-top: 60px; /* space below button */
-  padding-left: 8%; /* small left spacing */
+  padding-top:90px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px; /* space between text and image */
+    font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+.content12 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px; /* space between text and image */
+    font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+
+.content1-text {
+    text-align: left; /* heading/subheading aligned left */
 }
 
 .content1-image {
-  width: 45%; /* adjust size as needed */
-  height: auto;
-  object-fit: contain;
-  border-radius: 15px;
+    width: 45%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 15px;
 }
+
+  .content1 .heading {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0 0 20px 0; /* small spacing between heading and subheading */
+      display: flex;
+  }
+
+.content1 .subheading {
+    font-size: 18px;
+    font-weight: normal;
+    padding-bottom: 35px;
+    color: #555;
+    margin: 0;
+}
+
+.arrow {
+  width: 100%;
+  text-align: center;
+  margin: 15px; /* no extra spacing top/bottom */
+}
+
+.arrow img {
+  width: 40%; /* adjust size as needed */
+  height: auto;
+  display: inline-block;
+}
+
+
+.content2-image {
+    width: 45%; /* same as content1 */
+    height: 450px;
+    object-fit: contain;
+    border-radius: 15px;
+}
+
+
+
+
+
+.ready-heading {
+    font-size: 36px;
+    font-weight: 900;
+    color: #000;
+    line-height: 1.2;
+    font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    margin-bottom: 0;       /* remove spacing so SVG can flow right below */
+}
+
+/* Position the SVG below the text */
+.ready-svg {
+    display: block;         /* ensures it goes to next line */
+    width: 100px;           /* increased size */
+    height: auto;
+    margin-top: 10px;       /* space below text */
+    margin-left: 0;         /* align with text start */
+}
+
+/* Wrapper for SVG to position it below last word */
+.ready-svg-wrapper {
+    position: absolute;
+    bottom: -20px; /* adjust vertical position below text */
+    left: calc(100% - 50px); /* start near the end of the text line */
+    z-index: 1;
+}
+
 
 /* Responsive tweak */
 @media (max-width: 900px) {
@@ -253,3 +363,4 @@ body {
     width: 80%;
   }
 }
+
