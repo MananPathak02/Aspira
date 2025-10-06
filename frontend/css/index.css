@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   color: #172B4D;
   background-color: #ffffff;
   overflow-x: hidden;
@@ -95,6 +95,79 @@ body {
   font-weight: 600;
 }
 
+ .hero1 {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  text-align: center;
+  overflow: visible; /* allow tilt to overflow container if needed */
+  padding: 2rem 0;
+}
+
+  /* Tilted blue rectangle with adjusted top tilt */
+.hero1-tilt {
+  position: absolute;
+  top: -30px;
+  width: 95vw; /* match video-container width */
+  max-width: 1300px;
+  height: calc(100% + 30px);
+  background-color: #1868DB;
+  /* Adjusted top tilt, same bottom shape */
+  clip-path: polygon(
+    1.5% 5%,   /* top-left slightly down */
+    70% 6%,    
+    70% 13%, 
+    97% 10%,   /* top-right slightly down */
+    97.5% 89%, 
+    40% 100%, 
+    39.9% 90%, 
+    1% 88%
+  );
+  z-index: 1;
+}
+.hero1-tilt {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+  .hero1-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+  }
+
+  .hero1-content h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+  }
+
+  .hero1-content p {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+  }
+
+  .hero1-content button {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 30px;
+    font-size: 1.25rem;
+    cursor: pointer;
+  }
+
+
 /* Hero Section */
 .hero {
   text-align: center;
@@ -113,10 +186,20 @@ body {
   font-weight: 700;
   color: #0242a2;
 }
+.highlight1 {
+  font-weight: 800;
+  color: #0242a2;
+}
 .dreams {
   position: relative;          /* allows absolute positioning of underline */
   color: #070707;
   font-weight: 700;
+  display: inline-block;       /* ensures width matches text */
+}
+.dreams1 {
+  position: relative;          /* allows absolute positioning of underline */
+  color: #070707;
+  font-weight: 800;
   display: inline-block;       /* ensures width matches text */
 }
 
@@ -128,6 +211,8 @@ body {
   height: auto;                /* maintain aspect ratio */
   pointer-events: none;        /* avoids interfering with hover/click */
 }
+
+
 
 .hero p {
   font-size: 18px;
@@ -267,13 +352,6 @@ body {
     gap: 40px; /* space between text and image */
     font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
-.content12 {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 40px; /* space between text and image */
-    font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-}
 
 
 .content1-text {
@@ -323,6 +401,72 @@ body {
 }
 
 
+.contact-box {
+  max-width: 400px;
+  margin: 50px auto;
+  text-align: center;
+  padding: 40px 30px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffffff, #f7f9fc);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+  background-origin: border-box;
+  background-image:
+    linear-gradient(#fff, #fff),
+    linear-gradient(90deg, orange, yellow, blue); /* gradient border */
+}
+
+.contact-heading {
+  font-size: 1.8rem;
+  font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-weight: 700;
+  color: #1d3557;
+  margin-bottom: 10px;
+}
+
+.contact-subtext {
+  color: #5e6c84;
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-form input {
+  padding: 12px 15px;
+  border: 2px solid #dfe1e6;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.contact-form input:focus {
+  border-color: #2684ff; /* Atlassian blue */
+  box-shadow: 0 0 0 3px rgba(38, 132, 255, 0.2);
+}
+
+.contact-form button {
+  padding: 12px 0;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #0052cc, #2684ff);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contact-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(38, 132, 255, 0.3);
+}
 
 
 
@@ -363,4 +507,284 @@ body {
     width: 80%;
   }
 }
+
+.header1 {
+    font-size: 14px;
+    font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-weight: 600;
+    color: #5e6c84;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+
+/* Heading above the grid */
+.grid-heading {
+  font-size: 32px;
+  font-weight: 700;
+  color: #172b4d;
+  margin-bottom: 40px;
+  font-family: "Charlie Display", "Inter", "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -0.3px;
+}
+/* Grid Container */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px; /* Increased spacing between cards */
+  max-width: 1200px; /* Wider grid */
+  width: 90%;
+  margin: 60px auto; /* Center the grid horizontally and add top-bottom space */
+  justify-items: center; /* Ensures cards are centered in each cell */
+}
+
+/* Individual Card Styling */
+.card {
+  background-color: #ffffff;
+  border-radius: 25px;
+  border: 1px solid #bebebf;
+  padding: 55px;
+  width: 100%;
+  max-width: 440px; /* Increased card width */
+  box-shadow: 0 2px 4px rgba(9, 30, 66, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(9, 30, 66, 0.15);
+  border-color: #b3d4ff; /* subtle blue highlight */
+}
+
+
+/* Icon/Illustration Area Styling */
+.card-icon {
+  width: 100%;
+  height:auto;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.icon-image {
+    width: 230px; /* Increased icon size */
+    height: 250px; /* Increased icon size */
+    object-fit: contain;
+}
+/* Content Area Styling */
+.card-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: black;
+    margin-top: 5px;
+    margin-bottom: 8px;
+}
+
+.card-description {
+    font-size: 1.15rem;
+    color: #5e6c84;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    min-height: 40px; /* Ensures consistent height for descriptions */
+}
+
+/* "Try it out" Link Styling */
+.try-it-link {
+    font-size: 1rem;
+    color: #0052cc; /* Blue link color */
+    text-decoration: none;
+    font-weight: 500;
+    padding-top: 5px; /* Visual separation from description */
+}
+
+
+
+/* Wrapper section for spacing */
+.cards-section {
+    display: flex;
+    justify-content: center; /* center grid horizontally */
+    align-items: flex-start; /* keep cards top-aligned */
+    padding: 60px 0; /* space above and below */
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+/* Ensure grid stays centered and doesn’t go too wide */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1000px;
+    width: 90%;
+    margin: 0 auto; /* centers grid within wrapper */
+}
+
+/* === CTA SECTION === */
+.aspira-cta {
+  position: relative;
+  text-align: center;
+  background: linear-gradient(180deg, #f9fafc 0%, #ffffff 100%);
+  padding: 100px 20px;
+  overflow: hidden;
+}
+
+/* Heading */
+.cta-heading {
+  font-size: 36px;
+  font-weight: 700;
+  color: #172b4d;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+/* Subheading */
+.cta-subheading {
+  font-size: 18px;
+  color: #5e6c84;
+  max-width: 700px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+
+/* Button */
+.cta-button {
+  display: inline-block;
+  background-color: #0052cc;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 14px 32px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #0747a6;
+}
+
+/* Container holding the heading and stars */
+.heading-wrapper {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+/* Heading itself */
+.heading-wrapper h2 {
+  position: relative;
+  z-index: 2;
+  font-size: 2.2rem;
+  color: #172b4d;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+
+/* Base star styling */
+.star {
+  position: absolute;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+/* Star 1 — large (top-left) */
+.star1 {
+  width: 65px;
+  top: -60px;
+  left: -90px;
+}
+
+/* Star 2 — smaller (below-left) */
+.star2 {
+  width: 45px;
+  bottom: -90px;
+  left: 25px;
+}
+
+/* Star 3 — large again (top-right) */
+.star3 {
+  width: 90px;
+  top: -45px;
+  right: -100px;
+}
+
+/* Optional smooth fade-in effect */
+.star {
+  transform: scale(0.9);
+  opacity: 0;
+  animation: fadeInStar 1.2s ease-out forwards;
+}
+
+@keyframes fadeInStar {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Center alignment for the section */
+.join-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.join-content p {
+  font-size: 16px;
+  max-width: 600px;
+  margin-top:10px;
+  margin-bottom:20px;
+  line-height: 1.6;
+}
+
+.share-btn {
+  color: black;
+  border: 3px solid black;
+  border-radius: 30px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+
+/* Center all content inside the footer */
+.footer {
+  text-align: center;       /* Center text horizontally */
+  display: flex;
+  flex-direction: column;   /* Stack heading and subheading vertically */
+  align-items: center;      /* Center items horizontally */
+  justify-content: center;  /* Optional: center vertically if footer has height */
+  gap: 10px;                /* Optional: spacing between heading and subheading */
+}
+
+.footer-heading {
+  margin: 0;                /* Remove default margins */
+  font-size: 2rem;
+}
+
+.footer-subheading {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+
+
+
+
+
 
