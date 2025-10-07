@@ -109,51 +109,43 @@ body {
 }
 
 .decorative-images {
-    position: absolute;
+    position: fixed; /* Fixed so it doesn’t move when scrolling */
     bottom: 0;
+    left: 0;
     width: 100%;
-    height: 400px; /* Make more room for bigger images */
-    pointer-events: none; /* So clicks go to the login form */
+    height: auto;
+    pointer-events: none; /* So clicks go to elements above */
+    z-index: 0; /* Keep them behind main content */
 }
 
-/* Make PNGs large and position nicely */
 .decorative-images img {
-    position: absolute;
-    max-width: 35%; /* Make images as big as possible without breaking layout */
-    opacity: 0.85;
+    position: fixed;
+    bottom: 0;
+    max-width: 35%;
+    height: auto;
+    opacity: 0.9;
     transition: transform 0.3s ease;
 }
 
-/* Individual positions */
-.decorative-images .img1 {
-    bottom: -20px;
-    left: -50px;
-    transform: rotate(-10deg);
-}
-
+/* Left bottom image */
 .decorative-images .img2 {
-    bottom: 0;
-    left: 30%;
-    transform: rotate(5deg);
+    left: 0;
 }
 
+/* Right bottom image */
 .decorative-images .img3 {
-    bottom: -30px;
-    right: -40px;
-    transform: rotate(-5deg);
+    right: 0;
 }
 
-/* Optional hover effect */
+/* Remove tilt and hover rotation */
 .decorative-images img:hover {
-    transform: scale(1.05) rotate(0deg);
+    transform: scale(1.03);
     opacity: 1;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .decorative-images img {
-        max-width: 50%; /* Make them bigger on smaller screens */
+        max-width: 50%;
     }
-    .decorative-images .img1 { left: -30px; }
-    .decorative-images .img3 { right: -20px; }
 }

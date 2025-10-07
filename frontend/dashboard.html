@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aspira Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ---------- GLOBAL ---------- */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+} 
+
+    a { text-decoration:none; color:inherit; }
+
+    /* ---------- SIDEBAR ---------- */
+    .sidebar {
+      position: fixed;
+      top:0; left:0;
+      width:220px; height:100vh;
+      background:#fff; border-right:1px solid #e0e0e0;
+      display:flex; flex-direction:column; padding-top:30px;
+    }
+    /* Logo */
+.sidebar .logo {
+    width: 215px;
+    height:80;
+    object-fit:contain;
+    margin: 0 auto 20px auto;
+    display: block;
+    height:auto;
+}
+    .sidebar nav a { padding:15px 25px; font-size:1.25rem; display:block; color:black; font-weight:700; border-radius:10px; margin:5px 10px; transition:0.2s; }
+    .sidebar nav a:hover { background:#f0f4ff; color:#1868DB; }
+
+    /* ---------- TOPBAR ---------- */
+    .topbar {
+      position: fixed; left:220px; right:0; top:0; height:60px;
+      background:#ffffff; display:flex; align-items:center; justify-content:space-between;
+      padding:0 40px; border-bottom:1px solid #e0e0e0; z-index:10;
+    }
+    .topbar .greeting { font-size:18px; font-weight:500; }
+    .topbar .top-actions { display:flex; align-items:center; gap:20px; }
+
+    /* ---------- MAIN CONTENT ---------- */
+    .main-content {
+      margin-left:220px; padding:90px 40px 40px 40px;
+      display:flex; flex-direction:column; gap:30px;
+    }
+
+    /* ---------- CARDS ---------- */
+    .card {
+      background:#ffffff; border-radius:15px; padding:25px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:transform 0.3s ease;
+    }
+    .card:hover { transform:translateY(-2px); }
+    .card h2 { font-size:1.75rem; font-weight:700; margin-bottom:15px; color:#1868DB; }
+
+    .grid-2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; }
+
+    .career-card { background:#f0f4ff; border-radius:12px; padding:15px; text-align:center; font-weight:500; color:#1f2937; transition:0.2s; }
+    .career-card:hover { background:#d9e2ff; }
+
+    .timeline li { margin-bottom:10px; list-style:none; padding-left:15px; position:relative; }
+    .timeline li::before { content:''; position:absolute; left:0; top:6px; width:8px; height:8px; background:#1868DB; border-radius:50%; }
+
+    ul.skills-list, ul.course-list { list-style:none; }
+    ul.skills-list li, ul.course-list li { margin-bottom:8px; }
+    .activity-feed li { padding:10px 0; border-bottom:1px solid #e0e0e0; font-size:14px; }
+
+    
+
+    /* ---------- POPUP MODAL ---------- */
+    .modal {
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center;
+      z-index:100; display:none;
+    }
+    .modal.active { display:flex; }
+    .modal-content {
+      background:#fff; padding:30px; border-radius:20px; width:500px;
+      max-width:90%; position:relative;
+    }
+    .modal-content h3 { color:#1868DB; margin-bottom:20px; text-align:center; }
+    .modal-content .form-stage { display:none; flex-direction:column; gap:15px; }
+    .modal-content .form-stage.active { display:flex; }
+    .modal-content input, .modal-content select { padding:10px; border-radius:10px; border:1px solid #ddd; font-size:14px; }
+    .modal-content .buttons { display:flex; justify-content:space-between; margin-top:10px; }
+    .modal-content button { padding:10px 20px; border:none; border-radius:10px; cursor:pointer; background:#1868DB; color:white; font-weight:600; }
+    .modal-content button:hover { background:#144fa4; }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media(max-width:1024px) { .sidebar{width:180px;} .topbar{left:180px; padding:0 20px;} .main-content{margin-left:180px; padding:80px 20px 20px 20px;} }
+    @media(max-width:768px) { .topbar{flex-direction:column; align-items:flex-start; height:auto; padding:15px 20px; gap:10px;} .grid-2,.grid-3{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<script>
+  const existingData = localStorage.getItem('aspira_user_data');
+  if(!existingData) document.addEventListener('DOMContentLoaded', ()=> document.querySelector('.modal').classList.add('active'));
+</script>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <img src="images/download.png" alt="Aspira Logo" class="logo">
+  <nav class="nav-links">
+    <a href="#">Dashboard</a>
+    <a href="#">Career Paths</a>
+    <a href="#">Skills</a>
+    <a href="#">Courses</a>
+    <a href="#">Activity</a>
+    <a href="#">Profile</a>
+  </nav>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="greeting">Hi, <span id="userName"></span> 👋</div>
+  <div class="top-actions">
+    <span>🔔</span>
+    <span>👤</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <div class="card">
+    <h2>Welcome Panel</h2>
+    <p id="welcomeText">Welcome! Please complete the form to see your personalized dashboard.</p>
+  </div>
+  <div class="card grid-3" id="careerPaths"></div>
+  <div class="grid-2">
+    <div class="card" id="strengthsCard"><h2>Strengths</h2><ul class="skills-list"></ul></div>
+    <div class="card" id="weaknessesCard"><h2>Areas to Improve</h2><ul class="skills-list"></ul></div>
+  </div>
+  <div class="card" id="roadmapCard"><h2>Career Roadmap</h2><ul class="timeline"></ul></div>
+  <div class="grid-2">
+    <div class="card" id="skillsCard"><h2>Recommended Skills</h2><ul class="skills-list"></ul></div>
+    <div class="card" id="coursesCard"><h2>Recommended Courses</h2><ul class="course-list"></ul></div>
+  </div>
+  <div class="card" id="activityCard"><h2>Activity Feed</h2><ul class="activity-feed"></ul></div>
+</div>
+
+<!-- MULTI-STEP MODAL FORM -->
+<div class="modal">
+  <div class="modal-content">
+    <h3>Complete Your Profile</h3>
+
+    <!-- Stage 1 -->
+    <div class="form-stage active">
+      <input type="text" id="firstName" placeholder="First Name" required>
+      <input type="text" id="lastName" placeholder="Last Name" required>
+      <div class="buttons">
+        <div></div>
+        <button type="button" onclick="nextStage()">Next</button>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="form-stage">
+      <input type="number" id="age" placeholder="Age" required>
+      <select id="stream" required>
+        <option value="">Select Stream</option>
+        <option value="Science">Science</option>
+        <option value="Commerce">Commerce</option>
+        <option value="Arts">Arts</option>
+      </select>
+      <div class="buttons">
+        <button type="button" onclick="prevStage()">Back</button>
+        <button type="button" onclick="nextStage()">Next</button>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="form-stage">
+      <input type="text" id="interests" placeholder="Interests / Hobbies">
+      <div class="buttons">
+        <button type="button" onclick="prevStage()">Back</button>
+        <button type="button" onclick="nextStage()">Next</button>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="form-stage">
+      <input type="text" id="exams" placeholder="Competitive Exams Taken (optional)">
+      <div class="buttons">
+        <button type="button" onclick="prevStage()">Back</button>
+        <button type="button" onclick="nextStage()">Next</button>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="form-stage">
+      <p>Click Submit to see your personalized dashboard</p>
+      <div class="buttons">
+        <button type="button" onclick="prevStage()">Back</button>
+        <button type="button" onclick="submitForm()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentStage = 0;
+const stages = document.querySelectorAll('.form-stage');
+
+function showStage(index){
+  stages.forEach((s,i)=>s.classList.toggle('active', i===index));
+}
+function nextStage(){
+  if(currentStage<stages.length-1) currentStage++; showStage(currentStage);
+}
+function prevStage(){
+  if(currentStage>0) currentStage--; showStage(currentStage);
+}
+
+function submitForm(){
+  const data = {
+    firstName: document.getElementById('firstName').value.trim(),
+    lastName: document.getElementById('lastName').value.trim(),
+    age: document.getElementById('age').value.trim(),
+    stream: document.getElementById('stream').value,
+    interests: document.getElementById('interests').value.trim(),
+    exams: document.getElementById('exams').value.trim(),
+  };
+  localStorage.setItem('aspira_user_data', JSON.stringify(data));
+  populateDashboard(data);
+  document.querySelector('.modal').classList.remove('active');
+}
+
+// Populate dashboard dynamically
+function populateDashboard(data){
+  document.getElementById('userName').textContent = data.firstName;
+  document.getElementById('welcomeText').innerHTML = `Hi <strong>${data.firstName}</strong>, welcome to your Aspira Dashboard!`;
+
+  // Suggested Career Paths (generic for now)
+  const careerPaths = ['Data Scientist','Product Designer','Software Engineer','Data Analyst'];
+  const careerContainer = document.getElementById('careerPaths');
+  careerContainer.innerHTML = '';
+  careerPaths.forEach(c=>{
+    const div = document.createElement('div');
+    div.classList.add('career-card');
+    div.textContent = c;
+    careerContainer.appendChild(div);
+  });
+
+  // Strengths & Weaknesses (generic placeholder)
+  const strengths = ['Analytical Thinking','Problem Solving','Creativity'];
+  const weaknesses = ['Presentation Skills','Time Management','Networking'];
+  document.querySelector('#strengthsCard .skills-list').innerHTML = strengths.map(s=>`<li>${s}</li>`).join('');
+  document.querySelector('#weaknessesCard .skills-list').innerHTML = weaknesses.map(w=>`<li>${w}</li>`).join('');
+
+  // Roadmap
+  const roadmap = ['Learn Fundamentals','Build Mini Projects','Apply for Internships','Upskill via Courses'];
+  document.querySelector('#roadmapCard .timeline').innerHTML = roadmap.map(r=>`<li>${r}</li>`).join('');
+
+  // Skills & Courses
+  const skills = ['Python','Machine Learning','Data Visualization'];
+  const courses = ['Machine Learning - Coursera','Python for Data Science - Udemy','UI/UX Design Basics'];
+  document.querySelector('#skillsCard .skills-list').innerHTML = skills.map(s=>`<li>${s}</li>`).join('');
+  document.querySelector('#coursesCard .course-list').innerHTML = courses.map(c=>`<li>${c}</li>`).join('');
+
+  // Activity feed
+  const activity = ['Completed "Introduction to Python"','Unlocked milestone: "First Project Completed"','AI suggested new skill: "Data Visualization"'];
+  document.querySelector('#activityCard .activity-feed').innerHTML = activity.map(a=>`<li>${a}</li>`).join('');
+}
+
+// If data exists, populate dashboard automatically
+const savedData = localStorage.getItem('aspira_user_data');
+if(savedData) populateDashboard(JSON.parse(savedData));
+</script>
+</body>
+</html>

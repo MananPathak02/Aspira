@@ -106,3 +106,45 @@ body {
     margin-top: 15px;
     line-height: 1.5;
 }
+
+.decorative-images {
+    position: fixed; /* Fixed so it doesn’t move when scrolling */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    pointer-events: none; /* So clicks go to elements above */
+    z-index: 0; /* Keep them behind main content */
+}
+
+.decorative-images img {
+    position: fixed;
+    bottom: 0;
+    max-width: 35%;
+    height: auto;
+    opacity: 0.9;
+    transition: transform 0.3s ease;
+}
+
+/* Left bottom image */
+.decorative-images .img2 {
+    left: 0;
+}
+
+/* Right bottom image */
+.decorative-images .img3 {
+    right: 0;
+}
+
+/* Remove tilt and hover rotation */
+.decorative-images img:hover {
+    transform: scale(1.03);
+    opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .decorative-images img {
+        max-width: 50%;
+    }
+}

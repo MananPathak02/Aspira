@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aspira – Welcome</title>
+  <link rel="stylesheet" href="css/name-form.css">
+</head>
+<body>
+
+  <div class="name-form-container">
+    <div class="welcome-box">
+      <h2>Welcome to <span class="highlight">Aspira</span> 👋</h2>
+      <p>Let's personalize your experience. Please enter your name.</p>
+
+      <form id="nameForm">
+        <div class="input-group">
+          <input type="text" id="firstName" placeholder="First Name" required>
+          <input type="text" id="lastName" placeholder="Last Name" required>
+        </div>
+        <button type="submit" class="btn">Continue</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('nameForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const first = document.getElementById('firstName').value.trim();
+      const last = document.getElementById('lastName').value.trim();
+      
+      // Save in localStorage (you can replace this with backend call later)
+      localStorage.setItem('aspira_user_name', `${first} ${last}`);
+      
+      // Redirect to dashboard
+      window.location.href = 'dashboard.html';
+    });
+  </script>
+</body>
+</html>
