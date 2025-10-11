@@ -1,0 +1,160 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathPulse — Career Navigator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  </head>
+  <body>
+    <!-- Top Announcement Bar -->
+    <div class="announcement-bar">x
+      <span><strong>Breaking news:</strong> Aspira launches AI-powered career mapping!</span>
+      <a href="#">Learn more →</a>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <img src="{{ url_for('static', filename='images/download.png') }}" alt="PathPulse Logo" class="logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="#">Products</a></li>
+        <li><a href="#">Solutions</a></li>
+        <li><a href="#">Why PathPulse?</a></li>
+        <li><a href="#">Resources</a></li>
+        <li><a href="#">Career Test</a></li>
+      </ul>
+      <div class="nav-right">
+        <i class="search-icon">🔍</i>
+        <a href="/login" class="sign-in">Sign in</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="hero-content">
+        <h1>The AI-powered Career Platform:<br>from <span class="highlight">students</span> to <span class="dreams">dreams<img src="{{ url_for('static', filename='images/Screenshot_2025-10-05_115357-removebg-preview.png')}}" class="dreams-underline" alt=""></span></h1>
+        <p>Discover the right career path for your future — powered by data, psychology, and your interests.</p>
+        <a href="/signup" class="btn-primary">Get started</a>
+      </div>
+    </header>
+
+    <!-- Stats Section -->
+    <ul class="nav-links-2">
+      <li><a href="#"><strong>500K+</strong><br>Students</a></li>
+      <li><a href="#"><strong>1M+</strong><br>Career Paths</a></li>
+      <li><a href="#"><strong>100+</strong><br>Schools</a></li>
+      <li><a href="#"><strong>50+</strong><br>Countries</a></li>
+    </ul>
+
+    <!-- Product Demo Section -->
+    <section class="demo-section">
+      <div class="video-container">
+        <div class="video-wrapper">
+          <video class="demo-video" autoplay loop muted playsinline>
+            <source src="{{ url_for('static', filename='images/CSD-10721_WAC_Hero_FULL_LowBR.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div class="angled-block blue"></div>
+        <div class="angled-block lightblue"></div>
+      </div>
+    </section>
+
+    <div class="C-head1">
+      <p class="ready-heading">Ready to discover your future with AI guidance</p>
+      <img src="{{ url_for('static', filename='images/undraw_party-streamer.svg')}}" class="ready-svg" alt="Celebration Illustration">
+    </div>
+
+    <div class="container">
+      <div class="content1">
+        <div class="content1-text">
+          <p class="heading">Explore, plan, and achieve your goals with personalized AI insights.</p>
+          <p class="subheading">Your path to success, mapped intelligently.</p>
+          <a href="/signup" class="btn-primary-1">Get started</a>
+          <a href="#" class="Explore-link">Explore more →</a>
+        </div>
+        <img src="{{ url_for('static', filename='images/content1.png') }}" alt="Career Visual" class="content1-image">
+      </div>
+    </div>
+    <div class="arrow">
+      <img src="{{ url_for('static', filename='images/blues.png')}}" alt="Arrow" >
+    </div>
+
+    <section class="cards-section">
+      <h2 class="grid-heading">Empower Your Journey with <span class="dreams">Aspira<img src="{{ url_for('static', filename='images/Screenshot_2025-10-05_115357-removebg-preview.png')}}" class="dreams-underline" alt=""></span></h2>
+    <div class="grid-container">
+      <div class="card">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/Screenshot_2025-10-06_234614-removebg-preview.png')}}" alt="Plan Smarter Icon" class="icon-image">
+        </div>
+        <h3 class="card-title">Explore Your Path</h3>
+        <p class="card-description">Let AI uncover career opportunities that fit your skills, interests, and goals.</p>
+        <a href="#" class="try-it-link">Try it out →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <img src="{{ url_for('static', filename='images/Screenshot_2025-10-06_233918-removebg-preview.png')}}" alt="Plan Your Growth Icon" class="icon-image">
+        </div>
+        <h3 class="card-title">Plan Your Growth</h3>
+        <p class="card-description">Get custom learning paths and certifications to move toward your dream career.</p>
+        <a href="#" class="try-it-link">Try it out →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon"> 
+          <img src="{{ url_for('static', filename='images/Screenshot_2025-10-06_232439-removebg-preview.png')}}" alt="Connect & Collaborate Icon" class="icon-image">
+        </div>
+        <h3 class="card-title">Connect & Collaborate</h3>
+        <p class="card-description">Join mentors, peers, and communities that align with your career journey..</p>
+        <a href="#" class="try-it-link">Try it out →</a>
+      </div>
+    </div>
+  </section>
+
+
+
+  <div class="hero1">
+    <div class="hero1-tilt"></div>
+    <div class="hero1-content">
+      <h1>Unleash Your Potential with Aspira</h1>
+      <p>Join thousands of dreamers shaping their own path to success</p>
+      <button>Get started for free</button>
+    </div>
+  </div>
+
+  <section class="join-section">
+    <div class="join-content">
+      <div class="heading-wrapper">
+        <!-- Decorative Stars -->
+        <img src="{{ url_for('static', filename='images/star.png')}}" alt="Star 1" class="star star1">
+        <img src="{{ url_for('static', filename='images/star2.png')}}" alt="Star 2" class="star star2">
+        <img src="{{ url_for('static', filename='images/sparkle.png')}}" alt="Star 3" class="star star3">
+
+        <!-- Heading -->
+        <h2>Together at <span class="highlight1">Aspira</span>, Anything is <span class="dreams1">Possible<img src="{{ url_for('static', filename='images/Screenshot_2025-10-05_115357-removebg-preview.png')}}" class="dreams-underline" alt=""></span></h2>
+      </div>
+      <p>
+        Help shape the future of careers with Aspira. Together, we turn dreams into reality and empower individuals to design their unique path to success.
+      </p>
+      <button class="share-btn">Share your story</button>
+    </div>
+
+  </section>
+
+
+
+  <footer class="footer">
+    <h2 class="footer-heading">Ready to discover your future with AI guidance</h2>
+    <h3 class="footer-subheading">With Love <span class="dreams1">Creatorz</span></h3>
+  </footer>
+
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+  </body>
+  </html>
