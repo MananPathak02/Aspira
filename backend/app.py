@@ -1,14 +1,17 @@
-import os
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+import os 
 import ssl
+from ml.predict import predict_profile
 from flask import session
 from flask_mail import Mail, Message
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from pymongo import MongoClient
 
 app = Flask(
     __name__,
-    template_folder='templates',       # HTML templates
-    static_folder='static'  # CSS/JS/images
+    template_folder='templates',  
+    static_folder='static'  
 )
 app.secret_key = 'supersecretkey'  # required for session
 # MongoDB Atlas connection
@@ -20,21 +23,22 @@ client = MongoClient(
 )
 db = client['aspiraDB']
 users_collection = db['users']
+profiles_collection = db['career_profiles'] 
 
 # Routes
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# Flask-Mail configuration (put this near the top, before using Mail)
+
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'mananpathak672@gmail.com'  # sender email
-app.config['MAIL_PASSWORD'] = 'fudjyocvluhvdfxv'          # Gmail app password
+app.config['MAIL_USERNAME'] = 'mananpathak672@gmail.com'  
+app.config['MAIL_PASSWORD'] = 'fudjyocvluhvdfxv'          
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
-mail = Mail(app)  # initialize Mail AFTER config
+mail = Mail(app)  
 
 # ----------------------------
 @app.route('/signup', methods=['GET', 'POST'])
@@ -54,7 +58,6 @@ def signup():
             "password": password
         })
 
-        # Send welcome email
         try:
             with app.app_context():
                 print("Sending welcome email to", username)
@@ -72,9 +75,6 @@ def signup():
         return redirect(url_for('dashboard'))
 
     return render_template('signup.html')
-
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -97,6 +97,58 @@ def dashboard():
         return redirect(url_for('login'))
     return render_template('dashboard.html', name=session['username'])
 
+@app.route('/api/submit-profile', methods=['POST'])
+def submit_profile():
+    try:
+        data = request.get_json(force=True)
+        # sanitize / minimal validation
+        profile = {
+            "firstName": data.get("firstName", "").strip(),
+            "lastName": data.get("lastName", "").strip(),
+            "age": int(data.get("age")) if data.get("age") not in (None, "") else None,
+            "marks10": float(data.get("marks10")) if data.get("marks10") not in (None, "") else None,
+            "marks12": float(data.get("marks12")) if data.get("marks12") not in (None, "") else None,
+            "subjects12": data.get("subjects12", "").strip(),
+            "interests": data.get("interests", "").strip(),
+            "strengths": data.get("strengths", "").strip(),
+            "weaknesses": data.get("weaknesses", "").strip(),
+            # keep location fields in profile but we WILL NOT use it for prediction
+            "currentLocation": data.get("currentLocation", "").strip(),
+            "preferredLocation": data.get("preferredLocation", "").strip(),
+            "budget": data.get("budget"),
+            "goal": data.get("goal", "").strip(),
+            "exams": data.get("exams", "").strip(),
+            "rank": data.get("rank", None),
+            "created_at": None
+        }
+
+        # Add timestamp
+        import datetime
+        profile["created_at"] = datetime.datetime.utcnow()
+
+        # Save profile in MongoDB
+        res = profiles_collection.insert_one(profile)
+        profile["_id"] = str(res.inserted_id)
+
+        # RUN prediction (do NOT use location fields)
+        prediction_input = {
+            "marks12": profile["marks12"],
+            "subjects12": profile["subjects12"],
+            "interests": profile["interests"],
+            "exams": profile.get("exams", ""),
+            "rank": profile.get("rank", None)
+        }
+        prediction = predict_profile(prediction_input)
+
+        # Persist prediction into the same doc
+        profiles_collection.update_one({"_id": res.inserted_id}, {"$set": {"prediction": prediction}})
+
+        # Return prediction to frontend
+        return jsonify({"success": True, "profile_id": profile["_id"], "prediction": prediction})
+
+    except Exception as e:
+        print("Error in /api/submit-profile:", e)
+        return jsonify({"success": False, "error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

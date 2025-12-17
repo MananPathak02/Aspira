@@ -1,275 +1,1229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aspira Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aspira — Enhanced Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ---------- GLOBAL ---------- */
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-} 
-
-    a { text-decoration:none; color:inherit; }
-
-    /* ---------- SIDEBAR ---------- */
-    .sidebar {
-      position: fixed;
-      top:0; left:0;
-      width:220px; height:100vh;
-      background:#fff; border-right:1px solid #e0e0e0;
-      display:flex; flex-direction:column; padding-top:30px;
+    :root{
+      /* Atlassian-inspired design tokens */
+      --bg: hsl(0, 0%, 98%);
+      --card: hsl(0, 0%, 100%);
+      --muted: hsl(215, 14%, 47%);
+      --accent: hsl(214, 100%, 40%);
+      --accent-hover: hsl(214, 100%, 35%);
+      --foreground: hsl(222, 47%, 11%);
+      --border: hsl(214, 20%, 88%);
+      --glass: rgba(255,255,255,0.6);
+      
+      /* Light mode specific */
+      --light-bg: hsl(0, 0%, 98%);
+      --light-card: hsl(0, 0%, 100%);
+      --light-text: hsl(222, 47%, 11%);
+      --light-accent: hsl(214, 100%, 40%);
+      --light-border: hsl(214, 20%, 88%);
+      
+      /* Dark mode specific */
+      --dark-bg: hsl(222, 47%, 11%);
+      --dark-card: hsl(222, 40%, 13%);
+      --dark-text: hsl(210, 40%, 98%);
+      --dark-accent: hsl(214, 100%, 50%);
+      --dark-border: hsl(217, 33%, 22%);
+      
+      /* Shadows */
+      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+      --shadow-card-hover: 0 4px 12px rgba(0, 82, 204, 0.08), 0 2px 4px rgba(0, 0, 0, 0.08);
+      
+      /* Sidebar */
+      --sidebar-bg: hsl(222, 47%, 11%);
+      --sidebar-text: hsl(0, 0%, 90%);
+      --sidebar-hover: hsl(222, 40%, 15%);
+      --sidebar-border: hsl(222, 40%, 20%);
     }
-    /* Logo */
-.sidebar .logo {
-    width: 215px;
-    height:80;
-    object-fit:contain;
-    margin: 0 auto 20px auto;
-    display: block;
-    height:auto;
+/* ============================
+      PREMIUM ROADMAP UI
+   ============================ */
+/* Roadmap card sizing (keep or increase as needed) */
+.card:has(#quickRoadmap) {
+  padding: 28px 32px !important;
+  min-height: 320px !important; /* taller for vertical list */
 }
-    .sidebar nav a { padding:15px 25px; font-size:1.25rem; display:block; color:black; font-weight:700; border-radius:10px; margin:5px 10px; transition:0.2s; }
-    .sidebar nav a:hover { background:#f0f4ff; color:#1868DB; }
 
-    /* ---------- TOPBAR ---------- */
-    .topbar {
-      position: fixed; left:220px; right:0; top:0; height:60px;
-      background:#ffffff; display:flex; align-items:center; justify-content:space-between;
-      padding:0 40px; border-bottom:1px solid #e0e0e0; z-index:10;
+/* Vertical timeline (column layout) */
+.timeline {
+  display: flex;
+  flex-direction: column;   /* vertical stack */
+  gap: 22px;
+  width: 100%;
+  padding: 12px 0;
+  box-sizing: border-box;
+}
+
+/* Two-column layout for Technical + Soft Skills */
+.skills-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 18px;
+}
+
+.skill-box {
+  background: #f8faff;
+  padding: 16px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.skill-box strong {
+  font-size: 15px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Make list spacing nicer */
+.skill-box ul.clean li {
+  padding: 4px 0 4px 16px;
+}
+
+/* Mobile responsive */
+@media (max-width: 700px) {
+  .skills-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Remove scrollbar styles (not needed for vertical non-scrolling list) */
+.timeline::-webkit-scrollbar { display: none; }
+
+/* Step card styling (vertical-friendly) */
+.timeline .step {
+  width: 100%;
+  background: #fff; /* lighter card */
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+  border-radius: 12px;
+  text-align: left;    /* left-aligned content for readability */
+  font-weight: 600;
+  color: var(--foreground);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+  position: relative;
+  transition: transform .2s ease, box-shadow .2s ease;
+  line-height: 1.45;
+}
+
+/* Hover lift */
+.timeline .step:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+}
+
+/* Downward arrow between vertical steps — centered */
+.timeline .step::after {
+  content: "↓";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -18px;          /* space between step and arrow */
+  font-size: 22px;
+  color: var(--accent);
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Hide arrow for the last step */
+.timeline .step:last-child::after {
+  display: none;
+}
+
+/* Make sure long text wraps nicely */
+.timeline .step p, .timeline .step div {
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+/* Small screens: reduce spacing and arrow size */
+@media (max-width: 600px) {
+  .timeline {
+    gap: 14px;
+  }
+  .timeline .step {
+    padding: 14px;
+  }
+  .timeline .step::after {
+    bottom: -14px;
+    font-size: 18px;
+  }
+  .card:has(#quickRoadmap) {
+    min-height: auto;
+  }
+}
+
+/* ============================
+     COURSE OVERVIEW SKILLS FIX
+   ============================ */
+
+#techSkills, #softSkills {
+  margin-top: 8px !important;
+  padding-left: 20px !important;
+  line-height: 1.55;
+}
+
+.skill-section {
+  margin-top: 20px;
+}
+
+.skill-section strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.card #skillChips {
+  margin-bottom: 16px;
+}
+
+/* Smooth list bullets */
+ul.clean li {
+  padding-left: 16px;
+  margin-bottom: 4px;
+}
+
+
+    /* Base styles */
+    * {
+      box-sizing: border-box;
     }
-    .topbar .greeting { font-size:18px; font-weight:500; }
-    .topbar .top-actions { display:flex; align-items:center; gap:20px; }
-
-    /* ---------- MAIN CONTENT ---------- */
-    .main-content {
-      margin-left:220px; padding:90px 40px 40px 40px;
-      display:flex; flex-direction:column; gap:30px;
-    }
-
-    /* ---------- CARDS ---------- */
-    .card {
-      background:#ffffff; border-radius:15px; padding:25px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:transform 0.3s ease;
-    }
-    .card:hover { transform:translateY(-2px); }
-    .card h2 { font-size:1.75rem; font-weight:700; margin-bottom:15px; color:#1868DB; }
-
-    .grid-2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-    .grid-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; }
-
-    .career-card { background:#f0f4ff; border-radius:12px; padding:15px; text-align:center; font-weight:500; color:#1f2937; transition:0.2s; }
-    .career-card:hover { background:#d9e2ff; }
-
-    .timeline li { margin-bottom:10px; list-style:none; padding-left:15px; position:relative; }
-    .timeline li::before { content:''; position:absolute; left:0; top:6px; width:8px; height:8px; background:#1868DB; border-radius:50%; }
-
-    ul.skills-list, ul.course-list { list-style:none; }
-    ul.skills-list li, ul.course-list li { margin-bottom:8px; }
-    .activity-feed li { padding:10px 0; border-bottom:1px solid #e0e0e0; font-size:14px; }
-
     
-
-    /* ---------- POPUP MODAL ---------- */
-    .modal {
-      position: fixed; top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center;
-      z-index:100; display:none;
+    body {
+      font-family: Inter, Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      margin: 0;
+      background: var(--bg);
+      color: var(--foreground);
+      transition: background 0.3s ease, color 0.3s ease;
     }
-    .modal.active { display:flex; }
-    .modal-content {
-      background:#fff; padding:30px; border-radius:20px; width:500px;
-      max-width:90%; position:relative;
+    
+    body.light {
+      background: var(--light-bg);
+      color: var(--light-text);
     }
-    .modal-content h3 { color:#1868DB; margin-bottom:20px; text-align:center; }
-    .modal-content .form-stage { display:none; flex-direction:column; gap:15px; }
-    .modal-content .form-stage.active { display:flex; }
-    .modal-content input, .modal-content select { padding:10px; border-radius:10px; border:1px solid #ddd; font-size:14px; }
-    .modal-content .buttons { display:flex; justify-content:space-between; margin-top:10px; }
-    .modal-content button { padding:10px 20px; border:none; border-radius:10px; cursor:pointer; background:#1868DB; color:white; font-weight:600; }
-    .modal-content button:hover { background:#144fa4; }
 
-    /* ---------- RESPONSIVE ---------- */
-    @media(max-width:1024px) { .sidebar{width:180px;} .topbar{left:180px; padding:0 20px;} .main-content{margin-left:180px; padding:80px 20px 20px 20px;} }
-    @media(max-width:768px) { .topbar{flex-direction:column; align-items:flex-start; height:auto; padding:15px 20px; gap:10px;} .grid-2,.grid-3{grid-template-columns:1fr;} }
+    .app {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+/* ------------------ CORRECTED SIDEBAR (looks like #1, but NOT fixed) ------------------ */
+.sidebar {
+  width: 260px;        /* matches grid column size */
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+}
+
+.sidebar .logo {
+  width: 200px;
+  object-fit: contain;
+  margin: 0 auto 20px auto;
+}
+
+.sidebar nav a {
+  padding: 15px 20px;
+  font-size: 1.15rem;
+  display: block;
+  color: black;
+  font-weight: 700;
+  border-radius: 10px;
+  margin: 5px 15px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.sidebar nav a:hover {
+  background: #f0f4ff;
+  color: #1868DB;
+}
+
+
+
+    /* Topbar */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+    }
+    
+    body.light .topbar {
+      border-bottom-color: var(--light-border);
+      background: var(--light-card);
+    }
+    
+    .search {
+      flex: 1;
+      margin-left: 20px;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* Main area */
+    .main {
+      padding: 28px;
+      background: var(--bg);
+    }
+    
+    body.light .main {
+      background: var(--light-bg);
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 20px;
+    }
+    
+    .col-2 {
+      grid-column: span 2;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    
+    .card:hover {
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-2px);
+    }
+    
+    body.light .card {
+      background: var(--light-card);
+      border: 1px solid var(--light-border);
+    }
+
+    h1, h2 {
+      margin: 0 0 8px 0;
+      color: var(--foreground);
+      font-weight: 700;
+    }
+    
+    body.light h1, body.light h2 {
+      color: var(--light-text);
+    }
+    
+    h3 {
+      margin: 0 0 6px 0;
+      color: var(--foreground);
+      font-weight: 600;
+    }
+    
+    body.light h3 {
+      color: var(--light-text);
+    }
+    
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* profile summary */
+    .profile-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), hsl(214, 100%, 50%));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(0, 82, 204, 0.2);
+    }
+
+
+    /* =============================== */
+/*     PREMIUM RIGHT PANEL UI      */
+/* =============================== */
+
+.on-right {
+  background: linear-gradient(135deg, #003b9a 0%, #1b5cff 40%, #407bff 100%);
+  padding: 38px 28px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Logo */
+.right-logo img {
+  width: 140px;
+  filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.25));
+  margin-bottom: 10px;
+}
+
+/* Progress Ring */
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progress-ring {
+  width: 140px;
+  height: 140px;
+  position: relative;
+}
+
+.progress-ring svg {
+  width: 140px;
+  height: 140px;
+  transform: rotate(-90deg);
+}
+
+.progress-ring circle {
+  fill: none;
+  stroke-width: 12;
+  r: 60;
+  cx: 70;
+  cy: 70;
+}
+
+.progress-ring circle.bg {
+  stroke: rgba(255,255,255,0.2);
+}
+
+.progress-ring circle.progress {
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-dasharray: 377;
+  stroke-dashoffset: 377;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.progress-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 28px;
+}
+
+/* Label */
+.progress-label {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.9;
+  text-align: center;
+}
+
+/* Glass Preview Card */
+.glass-preview {
+  margin-top: 10px;
+  background: rgba(255,255,255,0.16);
+  backdrop-filter: blur(10px);
+  padding: 18px 20px;
+  border-radius: 16px;
+  min-height: 120px;
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15) inset;
+  border: 1px solid rgba(255,255,255,0.2);
+  font-size: 15px;
+}
+
+
+    /* career cards */
+    .career-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    
+    .career-tile {
+      padding: 16px;
+      border-radius: 10px;
+      background: hsl(214, 20%, 98%);
+      border: 1px solid var(--border);
+      text-align: center;
+      font-weight: 600;
+      color: var(--foreground);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .career-tile:hover {
+      background: hsl(214, 100%, 97%);
+      border-color: hsl(214, 100%, 40%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 82, 204, 0.12);
+    }
+    
+    body.light .career-tile {
+      background: hsl(214, 20%, 98%);
+      color: var(--light-text);
+    }
+
+    /* stats */
+    .stats {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .stat {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    /* roadmap timeline */
+    .timeline {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-top: 16px;
+    }
+    
+    .timeline .step {
+      flex: 1;
+      background: hsl(214, 20%, 98%);
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+    
+    .timeline .step:hover {
+      background: hsl(214, 100%, 97%);
+      border-color: hsl(214, 100%, 80%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 82, 204, 0.1);
+    }
+
+    /* lists */
+    ul.clean {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    ul.clean li {
+      color: var(--foreground);
+      padding-left: 16px;
+      position: relative;
+    }
+    
+    ul.clean li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    
+    body.light ul.clean li {
+      color: var(--light-text);
+    }
+    
+    .chip {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: hsl(214, 100%, 95%);
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 12px;
+      border: 1px solid hsl(214, 100%, 85%);
+    }
+
+/* =========================
+   RE-DESIGNED ONBOARDING MODAL
+   ========================= */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Popup box */
+.onboard {
+  width: 860px;
+  max-width: 95%;
+  background: var(--card);
+  border-radius: 20px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  animation: slideUp 0.35s ease both;
+}
+
+/* Left side content */
+.on-left {
+  padding: 36px 34px;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+}
+
+/* Right side styled panel */
+.on-right {
+  padding: 34px 28px;
+  background: linear-gradient(180deg, #1b5cff, #0041c4);
+  color: #fff;
+}
+
+/* Section title */
+.on-left h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Field label */
+.form-step label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Input fixed */
+.form-step input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px !important;
+  border: 1px solid #d4d7dc !important;
+  background: #fff !important;
+  font-size: 14px;
+  color: var(--foreground) !important;
+  transition: .2s;
+}
+
+.form-step input:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.15);
+  outline: none;
+}
+
+/* Buttons row */
+.form-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Ghost button (Cancel) */
+.ghost {
+  border-radius: 10px !important;
+  padding: 10px 16px !important;
+}
+
+/* Submit / Next button */
+.btn {
+  border-radius: 10px !important;
+  padding: 10px 18px !important;
+  font-weight: 700;
+}
+
+/* Preview section on right */
+#previewPane {
+  margin-top: 22px;
+  font-size: 15px;
+}
+
+#progressPercent {
+  font-size: 36px !important;
+  margin-top: 8px;
+}
+
+/* Form step switching animation */
+.form-step {
+  display: none;
+  animation: fadeIn .25s ease both;
+}
+
+.form-step.active {
+  display: block;
+}
+
+/* Slide animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+    /* responsive */
+    @media(max-width: 1000px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+      .main {
+        padding: 18px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .col-2 {
+        grid-column: span 1;
+      }
+      .onboard {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+    /* buttons */
+    .btn {
+      background: var(--accent);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 82, 204, 0.3);
+    }
+    
+    .btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 82, 204, 0.3);
+    }
+    
+    body.light .btn {
+      background: var(--light-accent);
+    }
+    
+    .ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--foreground);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    
+    .ghost:hover {
+      background: var(--card);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    
+    body.light .ghost {
+      border-color: var(--light-border);
+      color: var(--light-text);
+      background: transparent;
+    }
+    
+    body.light .ghost:hover {
+      background: hsl(214, 100%, 97%);
+      border-color: var(--light-accent);
+      color: var(--light-accent);
+    }
+
+    /* animated numbers */
+    .num {
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--accent);
+    }
+    
+    body.light .num {
+      color: var(--light-accent);
+    }
+    
+    strong {
+      color: var(--foreground);
+      font-weight: 700;
+    }
+    
+    body.light strong {
+      color: var(--light-text);
+    }
   </style>
 </head>
 <body>
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+  <img src="static/images/download.png" alt="Aspira Logo" class="logo">
 
-<script>
-  const existingData = localStorage.getItem('aspira_user_data');
-  if(!existingData) document.addEventListener('DOMContentLoaded', ()=> document.querySelector('.modal').classList.add('active'));
-</script>
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <img src="images/download.png" alt="Aspira Logo" class="logo">
-  <nav class="nav-links">
-    <a href="#">Dashboard</a>
-    <a href="#">Career Paths</a>
-    <a href="#">Skills</a>
-    <a href="#">Courses</a>
-    <a href="#">Activity</a>
-    <a href="#">Profile</a>
+  <nav>
+    <a onclick="scrollToSection('summary')">Dashboard</a>
+    <a onclick="scrollToSection('roadmap')">Roadmap</a>
+    <a onclick="scrollToSection('skills')">Skills</a>
+    <a onclick="scrollToSection('colleges')">Colleges</a>
+    <a onclick="scrollToSection('resources')">Resources</a>
   </nav>
-</div>
-
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="greeting">Hi, <span id="userName"></span> 👋</div>
-  <div class="top-actions">
-    <span>🔔</span>
-    <span>👤</span>
+  <div style="margin-top:24px; padding:0 20px;">
+  <div style="display:flex; gap:8px; align-items:center">
+    <button class="btn" id="newProfileBtn">New Profile</button>
+    <button class="ghost" id="themeToggle">Light</button>
   </div>
 </div>
 
-<!-- MAIN CONTENT -->
-<div class="main-content">
-  <div class="card">
-    <h2>Welcome Panel</h2>
-    <p id="welcomeText">Welcome! Please complete the form to see your personalized dashboard.</p>
-  </div>
-  <div class="card grid-3" id="careerPaths"></div>
-  <div class="grid-2">
-    <div class="card" id="strengthsCard"><h2>Strengths</h2><ul class="skills-list"></ul></div>
-    <div class="card" id="weaknessesCard"><h2>Areas to Improve</h2><ul class="skills-list"></ul></div>
-  </div>
-  <div class="card" id="roadmapCard"><h2>Career Roadmap</h2><ul class="timeline"></ul></div>
-  <div class="grid-2">
-    <div class="card" id="skillsCard"><h2>Recommended Skills</h2><ul class="skills-list"></ul></div>
-    <div class="card" id="coursesCard"><h2>Recommended Courses</h2><ul class="course-list"></ul></div>
-  </div>
-  <div class="card" id="activityCard"><h2>Activity Feed</h2><ul class="activity-feed"></ul></div>
+</aside>
+
+
+    <!-- MAIN CONTENT -->
+    <div style="display:flex; flex-direction:column; min-height:100vh;">
+      <div class="topbar">
+        <div style="display:flex; align-items:center">
+          <h1 style="font-size:20px;">Aspira</h1>
+          <div class="muted" style="margin-left:12px">— Personalized career guidance & roadmap</div>
+        </div>
+        <div class="controls">
+          <div class="muted">Welcome back, <strong id="userName">Student</strong></div>
+        </div>
+      </div>
+
+      <main class="main">
+        <!-- Summary row -->
+        <section id="summary" class="card" style="margin-bottom:16px; display:flex; justify-content:space-between; gap:18px; align-items:center">
+          <div style="display:flex; gap:16px; align-items:center">
+            <div class="avatar" id="avatar">S</div>
+            <div>
+              <div id="greeting"><strong>Hi, Student</strong></div>
+              <div class="muted" id="subtext">Complete the profile to get tailored guidance</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center">
+            <div style="text-align:right">
+              <div class="muted">Predicted Course</div>
+              <div class="num" id="predCourse">-</div>
+            </div>
+            
+            <div style="text-align:right">
+              <div class="muted">Profile Quality</div>
+              <div id="profileQuality">0%</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Grid overview -->
+        <div class="grid" style="margin-bottom:16px">
+          <div class="card col-2">
+            <h2 style="display:flex; justify-content:space-between; align-items:center">Course Overview <span class="muted" id="courseBadge">—</span></h2>
+            <div style="display:flex; gap:18px; margin-top:12px">
+              <div style="flex:1">
+                <h3 id="courseTitle">—</h3>
+                <div id="courseDesc" class="muted">Choose a profile to see details</div>
+
+                <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap" id="skillChips"></div>
+<div class="skills-two-col">
+<div class="skill-section">
+  <strong>Technical Skills</strong>
+  <ul class="clean" id="techSkills"></ul>
 </div>
 
-<!-- MULTI-STEP MODAL FORM -->
-<div class="modal">
-  <div class="modal-content">
-    <h3>Complete Your Profile</h3>
-
-    <!-- Stage 1 -->
-    <div class="form-stage active">
-      <input type="text" id="firstName" placeholder="First Name" required>
-      <input type="text" id="lastName" placeholder="Last Name" required>
-      <div class="buttons">
-        <div></div>
-        <button type="button" onclick="nextStage()">Next</button>
-      </div>
-    </div>
-
-    <!-- Stage 2 -->
-    <div class="form-stage">
-      <input type="number" id="age" placeholder="Age" required>
-      <select id="stream" required>
-        <option value="">Select Stream</option>
-        <option value="Science">Science</option>
-        <option value="Commerce">Commerce</option>
-        <option value="Arts">Arts</option>
-      </select>
-      <div class="buttons">
-        <button type="button" onclick="prevStage()">Back</button>
-        <button type="button" onclick="nextStage()">Next</button>
-      </div>
-    </div>
-
-    <!-- Stage 3 -->
-    <div class="form-stage">
-      <input type="text" id="interests" placeholder="Interests / Hobbies">
-      <div class="buttons">
-        <button type="button" onclick="prevStage()">Back</button>
-        <button type="button" onclick="nextStage()">Next</button>
-      </div>
-    </div>
-
-    <!-- Stage 4 -->
-    <div class="form-stage">
-      <input type="text" id="exams" placeholder="Competitive Exams Taken (optional)">
-      <div class="buttons">
-        <button type="button" onclick="prevStage()">Back</button>
-        <button type="button" onclick="nextStage()">Next</button>
-      </div>
-    </div>
-
-    <!-- Stage 5 -->
-    <div class="form-stage">
-      <p>Click Submit to see your personalized dashboard</p>
-      <div class="buttons">
-        <button type="button" onclick="prevStage()">Back</button>
-        <button type="button" onclick="submitForm()">Submit</button>
-      </div>
-    </div>
-  </div>
+<div class="skill-section">
+  <strong>Soft Skills</strong>
+  <ul class="clean" id="softSkills"></ul>
+</div>
 </div>
 
-<script>
-let currentStage = 0;
-const stages = document.querySelectorAll('.form-stage');
 
-function showStage(index){
-  stages.forEach((s,i)=>s.classList.toggle('active', i===index));
-}
-function nextStage(){
-  if(currentStage<stages.length-1) currentStage++; showStage(currentStage);
-}
-function prevStage(){
-  if(currentStage>0) currentStage--; showStage(currentStage);
+              </div>
+
+              <div style="width:320px">
+                <div class="card" style="padding:12px; margin-bottom:10px">
+                  <div class="muted">Average Salary (India)</div>
+                  <div class="num" id="salaryIndia">-</div>
+                </div>
+                <div class="card" style="padding:12px">
+                  <div class="muted">Average Salary (Global)</div>
+                  <div class="num" id="salaryGlobal">-</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Top Career Opportunities</h2>
+            <div class="career-grid" id="careerGrid"></div>
+          </div>
+
+          <div class="card">
+            <h2>Quick Roadmap</h2>
+            <div class="timeline" id="quickRoadmap"></div>
+          </div>
+        </div>
+
+        <!-- Skills & Projects -->
+        <div class="grid" style="margin-bottom:16px">
+          <div class="card">
+            <h2 id="skills">Recommended Skills</h2>
+            <ul class="clean" id="skillList"></ul>
+          </div>
+
+          <div class="card">
+            <h2>Recommended Projects</h2>
+            <ul class="clean" id="projectsList"></ul>
+          </div>
+
+          <div class="card">
+            <h2>Top Companies Hiring</h2>
+            <ul class="clean" id="companiesList"></ul>
+          </div>
+        </div>
+
+        <!-- Colleges & Resources -->
+        <div class="grid" style="margin-bottom:16px">
+          <div class="card col-2">
+            <h2>Recommended Colleges</h2>
+            <div id="collegesCards" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:10px"></div>
+          </div>
+
+          <div class="card" id="resources">
+            <h2>Learning Resources</h2>
+            <ul class="clean" id="resourcesList"></ul>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; justify-content:flex-end">
+          <button class="ghost" onclick="downloadReport()">Download Report</button>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ONBOARDING / MODAL (Style A — animated sliding) -->
+  <div id="onboardModal" class="modal-backdrop" style="display:none">
+    <div class="onboard card" role="dialog" aria-modal="true">
+      <div class="on-left">
+        <h2 style="margin-bottom:6px">Let's personalize your roadmap</h2>
+        <div class="muted">Answer a few quick questions. We'll tailor skills, projects, and colleges.</div>
+
+        <div id="formContainer" style="margin-top:18px">
+          <!-- Steps will be inserted by JS -->
+        </div>
+
+      </div>
+      <div class="on-right">
+
+  <!-- Aspira Logo -->
+  <div class="right-logo">
+    <img src="static/images/download.png" alt="Aspira Logo">
+  </div>
+
+  <!-- Progress Ring Container -->
+  <div class="progress-container">
+    <div class="progress-ring">
+      <svg>
+        <circle class="bg"></circle>
+        <circle class="progress" id="progressCircle"></circle>
+      </svg>
+      <div class="progress-text" id="progressPercent">0%</div>
+    </div>
+    <div class="progress-label">Profile Completion</div>
+  </div>
+
+  <!-- Glass Preview Card -->
+  <div class="glass-preview" id="previewPane">
+    <!-- JS will insert preview here -->
+  </div>
+
+</div>
+
+    </div>
+  </div>
+
+  <script>
+   // Always clear old data on new session (after successful login redirect)
+if (performance.navigation.type === performance.navigation.TYPE_NAVIGATE) {
+    localStorage.removeItem("aspira_user_data");
 }
 
-function submitForm(){
-  const data = {
-    firstName: document.getElementById('firstName').value.trim(),
-    lastName: document.getElementById('lastName').value.trim(),
-    age: document.getElementById('age').value.trim(),
-    stream: document.getElementById('stream').value,
-    interests: document.getElementById('interests').value.trim(),
-    exams: document.getElementById('exams').value.trim(),
-  };
-  localStorage.setItem('aspira_user_data', JSON.stringify(data));
-  populateDashboard(data);
-  document.querySelector('.modal').classList.remove('active');
+    // 🟢 RESET PROFILE ON NEW LOGIN
+if (!localStorage.getItem("aspira_user_logged_in")) {
+    localStorage.removeItem("aspira_user_data");
+    localStorage.setItem("aspira_user_logged_in", "yes");
 }
+ // Basic SPA + dynamic UI wiring
+    const defaultProfile = { firstName:'Student', marks10:null, marks12:null, subjects12:'', interests:'', strengths:'', weaknesses:'', budget:'', exams:'', rank:'' };
 
-// Populate dashboard dynamically
-function populateDashboard(data){
-  document.getElementById('userName').textContent = data.firstName;
-  document.getElementById('welcomeText').innerHTML = `Hi <strong>${data.firstName}</strong>, welcome to your Aspira Dashboard!`;
+    let profile = JSON.parse(localStorage.getItem('aspira_user_data')) || defaultProfile;
 
-  // Suggested Career Paths (generic for now)
-  const careerPaths = ['Data Scientist','Product Designer','Software Engineer','Data Analyst'];
-  const careerContainer = document.getElementById('careerPaths');
-  careerContainer.innerHTML = '';
-  careerPaths.forEach(c=>{
-    const div = document.createElement('div');
-    div.classList.add('career-card');
-    div.textContent = c;
-    careerContainer.appendChild(div);
+    // Theme
+    const themeToggle = document.getElementById('themeToggle');
+    function setTheme(light){
+      document.body.classList.toggle('light', !!light);
+      themeToggle.textContent = light ? 'Dark' : 'Light';
+    }
+    themeToggle.addEventListener('click', ()=>{
+      const isLight = document.body.classList.toggle('light');
+      localStorage.setItem('aspira_theme', isLight ? 'light' : 'dark');
+      setTheme(isLight);
+    });
+    setTheme(localStorage.getItem('aspira_theme') === 'light');
+
+    // New Profile button
+    document.getElementById('newProfileBtn').addEventListener('click', ()=>openOnboard());
+
+    // Onboard steps (Style A sliding) — build steps
+    const steps = [
+      {id:'s1', title:'Personal', fields:[ {k:'firstName',label:'First name', type:'text'}, {k:'lastName',label:'Last name',type:'text'}, {k:'age',label:'Age',type:'number'} ]},
+      {id:'s2', title:'Education', fields:[ {k:'marks10',label:'10th %',type:'number'}, {k:'marks12',label:'12th %',type:'number'}, {k:'subjects12',label:'Main subjects (PCM/PCB/Commerce/Arts)', type:'text'}, {k:'exams', label:'Entrance exams (JEE/NEET/CUET)', type:'text'}, {k:'rank', label:'Rank (optional)', type:'number'} ]},
+      {id:'s3', title:'Interests', fields:[ {k:'interests',label:'Interests / Hobbies',type:'text'}, {k:'strengths',label:'Your strengths (comma separated)', type:'text'}, {k:'weaknesses',label:'Areas to improve (comma separated)', type:'text'} ]},
+      {id:'s4', title:'Budget & Goal', fields:[ {k:'budget',label:'Budget (₹)',type:'number'}, {k:'goal',label:'Career goal (e.g. Data Scientist)',type:'text'} ]}
+    ];
+
+    function openOnboard(){
+      buildForm();
+      document.getElementById('onboardModal').style.display='flex';
+    }
+
+    function buildForm() {
+  const container = document.getElementById('formContainer');
+  container.innerHTML = '';
+
+  steps.forEach((st, idx) => {
+    const el = document.createElement('div');
+    el.className = 'form-step ' + (idx === 0 ? 'active' : '');
+    el.id = st.id;
+
+    el.innerHTML =
+      `<h3>${st.title}</h3>` +
+      st.fields
+        .map(
+          f => `
+        <div style="margin-top:14px">
+          <label>${f.label}</label>
+          <input 
+            id="f_${f.k}" 
+            type="${f.type}" 
+          />
+        </div>`
+        )
+        .join('') +
+      `
+      <div class="form-actions">
+        <button class="ghost" onclick="closeOnboard()">Cancel</button>
+        <button class="btn" onclick="nextForm('${st.id}')">
+          ${idx === steps.length - 1 ? 'Submit' : 'Next'}
+        </button>
+      </div>
+      `;
+
+    container.appendChild(el);
+
+    // pre-fill
+    st.fields.forEach(f => {
+      const node = document.getElementById('f_' + f.k);
+      if (node) node.value = profile[f.k] || '';
+    });
   });
-
-  // Strengths & Weaknesses (generic placeholder)
-  const strengths = ['Analytical Thinking','Problem Solving','Creativity'];
-  const weaknesses = ['Presentation Skills','Time Management','Networking'];
-  document.querySelector('#strengthsCard .skills-list').innerHTML = strengths.map(s=>`<li>${s}</li>`).join('');
-  document.querySelector('#weaknessesCard .skills-list').innerHTML = weaknesses.map(w=>`<li>${w}</li>`).join('');
-
-  // Roadmap
-  const roadmap = ['Learn Fundamentals','Build Mini Projects','Apply for Internships','Upskill via Courses'];
-  document.querySelector('#roadmapCard .timeline').innerHTML = roadmap.map(r=>`<li>${r}</li>`).join('');
-
-  // Skills & Courses
-  const skills = ['Python','Machine Learning','Data Visualization'];
-  const courses = ['Machine Learning - Coursera','Python for Data Science - Udemy','UI/UX Design Basics'];
-  document.querySelector('#skillsCard .skills-list').innerHTML = skills.map(s=>`<li>${s}</li>`).join('');
-  document.querySelector('#coursesCard .course-list').innerHTML = courses.map(c=>`<li>${c}</li>`).join('');
-
-  // Activity feed
-  const activity = ['Completed "Introduction to Python"','Unlocked milestone: "First Project Completed"','AI suggested new skill: "Data Visualization"'];
-  document.querySelector('#activityCard .activity-feed').innerHTML = activity.map(a=>`<li>${a}</li>`).join('');
 }
 
-// If data exists, populate dashboard automatically
-const savedData = localStorage.getItem('aspira_user_data');
-if(savedData) populateDashboard(JSON.parse(savedData));
-</script>
+
+    function closeOnboard(){ document.getElementById('onboardModal').style.display='none'; }
+
+    function nextForm(id){
+      const idx = steps.findIndex(s=>s.id===id);
+      // save current step fields
+      steps[idx].fields.forEach(f=>{ const v = document.getElementById('f_'+f.k).value; profile[f.k]=v; });
+
+      if(idx < steps.length-1){
+        document.getElementById(steps[idx].id).classList.remove('active');
+        document.getElementById(steps[idx+1].id).classList.add('active');
+      } else {
+        // submit
+        submitProfile();
+      }
+      updatePreview();
+    }
+
+    function updatePreview() {
+  // Update text percent
+  const percent = Math.min(
+    100,
+    Math.round((Object.keys(profile).filter(k => profile[k]).length / 12) * 100)
+  );
+
+  document.getElementById("progressPercent").textContent = percent + "%";
+
+  // Animate progress ring
+  const circle = document.getElementById("progressCircle");
+  const circumference = 377;
+  const offset = circumference - (percent / 100) * circumference;
+  circle.style.strokeDashoffset = offset;
+
+  // Update preview card
+  document.getElementById("previewPane").innerHTML = `
+      <div style="font-size:17px; font-weight:700;">${profile.firstName || 'Your Name'}</div>
+      <div style="opacity:0.9; margin-top:6px;">
+        ${profile.subjects12 || 'Subjects not added'} 
+        ${profile.marks12 ? " • " + profile.marks12 + "%" : ""}
+      </div>
+  `;
+}
+    // Submit profile to backend
+    async function submitProfile(){
+      // minimal validation
+      if(!profile.firstName || !profile.marks12){ alert('Please fill name and 12th marks'); return; }
+
+      try{
+        const resp = await fetch('/api/submit-profile',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(profile)});
+        const json = await resp.json();
+        if(!json.success){ alert('Server error: '+json.error); return; }
+        localStorage.setItem('aspira_user_data', JSON.stringify({ ...profile, prediction: json.prediction }));
+        profile = { ...profile, prediction: json.prediction };
+        applyPrediction(json.prediction);
+        closeOnboard();
+      }catch(e){ console.error(e); alert('Failed to submit profile'); }
+    }
+
+    // Apply prediction to UI
+    function applyPrediction(pred){
+  // Top summary
+  document.getElementById('greeting').innerHTML = `<strong>Hi, ${profile.firstName}</strong>`;
+  document.getElementById('predCourse').textContent = pred.predicted_course || '-';
+  document.getElementById('courseTitle').textContent = pred.predicted_course || '-';
+
+  // Course badge + description
+  document.getElementById('courseBadge').textContent = pred.course_badge || '—';
+  document.getElementById('courseDesc').textContent = pred.course_description || '';
+
+  // Skill chips (small tags)
+  document.getElementById('skillChips').innerHTML =
+    (pred.technical_skills || [])
+      .map(s => `<div class="chip">${s}</div>`).join('');
+
+  // Technical skills list
+  document.getElementById('techSkills').innerHTML =
+    (pred.technical_skills || [])
+      .map(s => `<li>${s}</li>`).join('');
+
+  // Soft skills
+  document.getElementById('softSkills').innerHTML =
+    (pred.soft_skills || [])
+      .map(s => `<li>${s}</li>`).join('');
+
+  // Salary
+  document.getElementById('salaryIndia').textContent = pred.salary_india || '-';
+  document.getElementById('salaryGlobal').textContent = pred.salary_global || '-';
+
+  // Career Opportunities
+  document.getElementById('careerGrid').innerHTML =
+    (pred.career_opportunities || [])
+      .map(c => `<div class="career-tile"><strong>${c}</strong></div>`).join('');
+
+  // Timeline / Roadmap
+  document.getElementById('quickRoadmap').innerHTML =
+    (pred.roadmap || [])
+      .map(step => `<div class="step card">${step}</div>`).join('');
+
+  // Recommended Skills section
+  document.getElementById('skillList').innerHTML =
+    (pred.technical_skills || [])
+      .map(s => `<li>${s}</li>`).join('');
+
+  // Recommended Projects
+  document.getElementById('projectsList').innerHTML =
+    (pred.projects || [])
+      .map(p => `<li>${p}</li>`).join('');
+
+  // Hiring Companies
+  document.getElementById('companiesList').innerHTML =
+    (pred.companies || [])
+      .map(c => `<li>${c}</li>`).join('');
+
+  // Recommended Colleges
+  const colleges = pred.recommended_colleges || [];
+  document.getElementById('collegesCards').innerHTML =
+    colleges.length
+      ? colleges.map(c => `
+            <div class="card">
+              <strong>${c.college}</strong>
+              <div class="muted">${c.course}</div>
+              <div style="margin-top:8px">
+                Min %: ${c.required_percentage}
+                ${c.rank_cutoff ? ' • Rank cutoff: ' + c.rank_cutoff : ''}
+              </div>
+            </div>
+        `).join('')
+      : '<div class="muted">No matching colleges</div>';
+
+  // Learning Resources
+  document.getElementById('resourcesList').innerHTML =
+    (pred.resources || [])
+      .map(r => `<li>${r}</li>`).join('');
+
+  // Profile quality (based on total fields filled)
+  document.getElementById('profileQuality').textContent =
+    Math.min(100, Math.round((Object.keys(profile).filter(k => profile[k]).length / 12) * 100)) + '%';
+}
+    // Helper mapping functions (simple heuristics)
+
+    function scrollToSection(id){ document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'}); }
+
+    function downloadReport(){ window.print(); }
+
+    // Load previously saved
+    (function init(){
+      if(profile && profile.prediction){ applyPrediction(profile.prediction); document.getElementById('onboardModal').style.display='none'; }
+      else{ document.getElementById('onboardModal').style.display='flex'; buildForm(); updatePreview(); }
+    })();
+
+  </script>
 </body>
 </html>
