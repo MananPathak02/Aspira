@@ -1,5 +1,7 @@
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+import os
+from flask_cors import CORS
 import os 
 import ssl
 from ml.predict import predict_profile
@@ -13,14 +15,13 @@ app = Flask(
     template_folder='templates',  
     static_folder='static'  
 )
-app.secret_key = 'supersecretkey'  # required for session
+
+CORS(app)
+
+app.secret_key = os.environ.get("SECRET_KEY")
+
 # MongoDB Atlas connection
-CONNECTION_STRING = "mongodb+srv://mananpathak0052_db_user:u8ckqDFntBZoXPyF@cluster0.mjxtlsu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0&tls=true"
-client = MongoClient(
-    CONNECTION_STRING,
-    tls=True,
-    tlsAllowInvalidCertificates=True
-)
+client = MongoClient(os.environ.get("MONGODB_URI"))
 db = client['aspiraDB']
 users_collection = db['users']
 profiles_collection = db['career_profiles'] 
@@ -33,8 +34,8 @@ def home():
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'mananpathak672@gmail.com'  
-app.config['MAIL_PASSWORD'] = 'fudjyocvluhvdfxv'          
+app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")       
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -150,5 +151,6 @@ def submit_profile():
         print("Error in /api/submit-profile:", e)
         return jsonify({"success": False, "error": str(e)}), 500
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+
