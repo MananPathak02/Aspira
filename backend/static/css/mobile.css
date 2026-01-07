@@ -1,0 +1,531 @@
+/* ===============================
+   MOBILE RESET & SAFETY
+   =============================== */
+@media (max-width: 768px) {
+
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+ * {
+  box-sizing: border-box;
+}
+
+img, video, svg {
+  max-width: 100%;
+}
+
+
+  /* ===============================
+     ANNOUNCEMENT BAR (TOP BREAKING)
+     =============================== */
+  .announcement-bar {
+    padding: 8px 12px;
+    font-size: 12.5px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .announcement-bar a {
+    font-size: 12.5px;
+  }
+
+  /* ===============================
+     NAVBAR → MOBILE HEADER
+     =============================== */
+  .navbar {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    z-index: 100;
+  }
+
+  /* Logo (left) */
+  .logo {
+    width: 160px;
+    height: auto;
+  }
+
+  /* Hide desktop links */
+  .nav-links {
+    display: none;
+  }
+
+  /* Right section → hamburger only */
+  .nav-right {
+  position: relative;   /* anchor for hamburger */
+  width: 32px;
+  height: 32px;
+}
+.nav-right::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 6px;            /* 👈 THIS is what you control */
+  width: 26px;
+  height: 3px;
+  background: #091E42;
+  border-radius: 2px;
+  box-shadow:
+    0 8px 0 #091E42,
+    0 16px 0 #091E42;
+}
+  /* Hide search + sign in (mobile) */
+  .search-icon,
+  .sign-in {
+    display: none;
+  }
+
+  /* ===============================
+     HERO SECTION (TITLE AREA)
+     =============================== */
+  .hero {
+  padding: 28px 16px 24px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 100%;
+}
+
+
+  .hero h1 {
+  font-size: 2.05rem;          /* main size */
+  font-weight: 700;
+  line-height: 1.38;           /* tight but readable */
+  letter-spacing: -0.3px;      /* Atlassian-style */
+  margin-bottom: 20px;
+  color: #172B4D;
+}
+.hero h1 br {
+  display: block;
+}
+.hero h1 .dreams {
+  display: block;
+  position: relative;     /* ✅ anchor underline here */
+  font-size: 2.6rem;
+  font-weight: 900;
+  margin-top: 2px;
+  line-height: 1.1;
+  color: #091E42;
+  padding-bottom:20px;
+}
+
+
+/* Mobile fix for yellow underline */
+.hero h1 .dreams-underline {
+  position: absolute;
+  left: 55%;              /* 👈 center horizontally */
+  transform: translateX(-50%);
+  bottom: 2px;          /* 👈 sits just below text */
+  width: 140%;
+  max-width: 180px;
+  height: auto;
+  opacity: 1;
+  
+}
+
+
+.hero h1 {
+  text-transform: none;
+}
+
+.hero h1 span:not(.dreams) {
+  font-weight: 600;
+}
+  .hero p {
+    display:none;
+  }
+
+.btn-primary {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+/* ===============================
+   MOBILE STATS – CLEAN INLINE GRID
+   =============================== */
+
+.nav-links-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2×2 layout */
+  gap: 16px 12px;
+  padding: 16px 20px 8px;
+  margin-top: 4px;
+  list-style: none;
+}
+
+/* Individual stat item */
+.nav-links-2 li {
+  text-align: center;
+}
+
+/* Number */
+.nav-links-2 li a strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  color: #172B4D;
+  line-height: 1.2;
+}
+
+/* Label */
+.nav-links-2 li a {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B778C;
+  text-decoration: none;
+  line-height: 1.3;
+}
+/* ===============================
+   MOBILE VIDEO – ATLASSIAN SIZE
+   =============================== */
+
+.demo-section {
+  position: relative;
+  padding-top: 32px;
+  padding-bottom: 140px;  /* 👈 CREATES SPACE FOR BLUE */
+  overflow: visible;
+}
+
+/* Video stays centered */
+.video-container {
+  width: 80%;
+  max-width: 400px;   /* 👈 Atlassian-like */
+  margin: 0 auto;
+  position: relative;
+  z-index: 3;
+  margin-bottom: -130px;  
+  /* Pull video slightly into blue area */
+}
+.video-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+}
+/* ===============================
+   FULL-WIDTH BLUE BACKGROUND
+   =============================== */
+ .demo-section {
+    position: relative;
+    padding-bottom: 160px;   /* 👈 space for angled blue */
+    overflow: hidden;
+  }
+.angled-block {
+  position: absolute;
+  bottom: 0;
+
+  left: 50%;
+  transform: translateX(-50%) translateY(32%); /* ✅ REAL CENTER */
+
+  width: 160%;     /* enough for angles */
+  height: 42%;
+
+  clip-path: polygon(
+  0.5% 0,
+  50% 0,
+  50% 10%,
+  98.5% 0,
+  100% 85%,
+
+  /* 👇 shifted zig-zag to the right */
+  30.25% 100%,
+  29.75% 85%,
+  0 85%
+);
+
+  z-index: 1;
+  background: #0052CC !important;
+  opacity: 1;
+}
+  .video-container {
+    position: relative;
+    z-index: 3;
+    margin-bottom: -120px; /* 👈 pulls video into blue */
+  }
+  .ready-heading {
+  font-size: clamp(1.3rem, 4.2vw, 2rem); /* responsive & controlled */
+  line-height: 1.25;
+  font-weight: 700;
+  color: #172B4D;
+  text-align: center;
+
+  max-width: 90%;
+  margin: 0 auto 12px;
+}
+.C-head1 {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: visible;
+  align-items: center;
+  z-index: 50;
+}
+.container{
+  display: none;
+}
+.heading-wrapper {
+  position: relative; /* ⭐ anchor for stars */
+  text-align: center;
+  padding: 24px 0 32px;
+}
+
+/* Base star styling */
+.ready-star {
+  position: absolute;
+  opacity: 1 !important;     /* 🔥 force visible */
+  z-index: 100; 
+  display: block;      
+}.rs1 {
+  width: 45px;
+  top: -40px;
+  left: 1%;
+  transform: rotate(-12deg);
+}
+
+.rs2 {
+  width: 34px;
+  bottom: 35px;
+  left: 0%;
+  transform: rotate(8deg);
+}
+
+.rs3 {
+  width: 75px;
+  top: -20px;
+  right: 0%;
+  transform: rotate(-6deg);
+}
+.arrow{
+  display:none;
+}
+/* ===============================
+   MOBILE GRID HEADING FIX
+   =============================== */
+
+/* ===============================
+   GRID HEADING + ASPIRA UNDERLINE
+   =============================== */
+
+.grid-heading {
+  font-size: 25px;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.25;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 16px 16px;
+  max-width: 90%;
+}
+
+/* Aspira container */
+/* Aspira text wrapper */
+.grid-heading .dreams {
+  position: relative;
+  display: inline-block;       /* 🔥 tighter than inline-block */
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 800;
+  text-align: center;
+
+  padding-bottom: 0;       /* space for underline */
+}
+
+
+/* Underline that fits Aspira */
+/* Yellow underline / arrow */
+.grid-heading .dream-underline {
+  position: absolute;
+  left: 75%;              /* 👈 center horizontally */
+  transform: translateX(-50%);
+  bottom: -25px;          /* 👈 sits just below text */
+  width: 180%;
+  max-width: 180px;
+  height: auto;
+  opacity: 1;
+}
+
+
+  /* Horizontal scrolling container */
+  .grid-container {
+    display: flex !important;
+    flex-direction: row;
+    gap: 16px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 8px 16px 24px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide scrollbar (clean look) */
+  .grid-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .grid-container {
+    scrollbar-width: none; /* Firefox */
+  }
+
+  /* Individual card (small & swipeable) */
+  .card {
+    flex: 0 0 80%;          /* 👈 card width */
+    max-width: 80%;
+    scroll-snap-align: start;
+
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  /* Smaller icon */
+  .icon-image {
+    width: 110px;
+    height: auto;
+  }
+
+  /* Compact text */
+  .card-title {
+    font-size: 1.2rem;
+  }
+
+  .card-description {
+    font-size: 0.95rem;
+  }
+.hero1 {
+  position: relative;
+  width: 100vw;
+  min-height: 60vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1868DB;
+
+  padding: 72px 16px 80px;
+  overflow: hidden;
+}
+.hero1-tilt {
+  position: absolute;
+  inset: 0;               /* 🔥 fills entire hero */
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+
+.hero1-tilt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #1868DB;
+  opacity:1;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 85%,
+    70% 92%,
+    40% 100%,
+    0 90%
+  );
+}
+.hero1-tilt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #1868DB;
+  opacity:1;
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 90%,
+    60% 100%,
+    30% 92%,
+    0 85%
+  );
+
+}
+
+.hero1-content {
+  position: relative;
+  z-index: 2;
+
+  max-width: 90%;
+  text-align: center;
+  color: #ffffff;
+}
+
+.hero1-content h1 {
+  font-size: clamp(1.9rem, 6vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.hero1-content p {
+  font-size: 0.95rem;
+  opacity: 0.95;
+  margin-bottom: 28px;
+}
+
+.hero1-content button {
+  background: #ffffff;
+  color: #1868DB;
+
+  border: none;
+  border-radius: 999px;
+
+  padding: 12px 26px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+/* Base star styling */
+.star {
+  position: absolute;
+  opacity: 1 !important;     /* 🔥 force visible */
+  z-index: 100; 
+  display: block; 
+}
+
+/* Star 1 — large (top-left) */
+.star1 {
+  width: 45px;
+  top: -40px;
+  left: 1%;
+  transform: rotate(-12deg);
+}
+
+.star2 {
+  width: 34px;
+  bottom: 15px;
+  left: 0%;
+  transform: rotate(8deg);
+}
+
+.star3 {
+  width: 75px;
+  top: -25px;
+  right: 0%;
+  transform: rotate(-6deg);
+}
+
+/* Optional smooth fade-in effect */
+.star {
+  transform: scale(0.9);
+  opacity: 0;
+  animation: fadeInStar 1.2s ease-out forwards;
+}
+}
