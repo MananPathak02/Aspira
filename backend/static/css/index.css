@@ -789,7 +789,7 @@ body {
 
   /* --- Navbar --- */
   .navbar {
-    flex-direction: column;
+    flex-direction: row;
     padding: 10px 16px;
     gap: 12px;
   }
@@ -897,4 +897,57 @@ body {
     font-size: 1rem;
   }
 }
+/* ===============================
+   MOBILE-ONLY ELEMENTS SAFETY
+   =============================== */
+.ready-stars-mobile {
+  display: none !important;
+}
+/* ===============================
+   DESKTOP SAFETY FIREWALL
+   =============================== */
 
+/* Hide ALL mobile-only visuals on desktop */
+@media (min-width: 769px) {
+  .ready-star {
+    display: none;
+  }
+}
+/* Mobile-only hero background shapes */
+@media (min-width: 769px) {
+  .hero1-tilt::before,
+  .hero1-tilt::after {
+    display: none !important;
+  }
+}
+/* ===============================
+   DESKTOP FIX — ASPIRA UNDERLINE
+   =============================== */
+
+/* Lock grid heading layout */
+.cards-section .grid-heading {
+  position: relative;
+  text-align: center;
+}
+
+/* Aspira word wrapper (desktop only) */
+.cards-section .grid-heading .dreams {
+  position: relative;
+  display: inline-block;
+  font-weight: 800;
+}
+
+/* Perfect underline fit for "Aspira" */
+.cards-section .grid-heading .dreams-underline,
+.cards-section .grid-heading .dream-underline {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -26px;
+
+  width: 115%;          /* 👈 fits Aspira only */
+  max-width: 200px;     /* 👈 prevents stretch */
+  height: auto;
+
+  pointer-events: none;
+}
