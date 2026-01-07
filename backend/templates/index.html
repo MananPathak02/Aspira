@@ -6,10 +6,11 @@
     <title>PathPulse — Career Navigator</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}" media="(max-width: 768px)">
   </head>
   <body>
     <!-- Top Announcement Bar -->
-    <div class="announcement-bar">
+    <div class="announcement-bar">x
       <span><strong>Breaking news:</strong> Aspira launches AI-powered career mapping!</span>
       <a href="#">Learn more →</a>
     </div>
@@ -33,6 +34,7 @@
     </nav>
 
     <!-- Hero Section -->
+     <!-- Hero Section -->
     <header class="hero">
       <div class="hero-content">
         <h1>The AI-powered Career Platform:<br>from <span class="highlight">students</span> to <span class="dreams">dreams<img src="{{ url_for('static', filename='images/Screenshot_2025-10-05_115357-removebg-preview.png')}}" class="dreams-underline" alt=""></span></h1>
@@ -67,6 +69,9 @@
     <div class="C-head1">
       <p class="ready-heading">Ready to discover your future with AI guidance</p>
       <img src="{{ url_for('static', filename='images/undraw_party-streamer.svg')}}" class="ready-svg" alt="Celebration Illustration">
+      <img src="{{ url_for('static', filename='images/star.png') }}" class="ready-star rs1" alt="RStar 1">
+      <img src="{{ url_for('static', filename='images/star2.png') }}" class="ready-star rs2" alt="RStar 2">
+      <img src="{{ url_for('static', filename='images/sparkle.png') }}" class="ready-star rs3" alt="RStar 3">
     </div>
 
     <div class="container">
@@ -85,7 +90,7 @@
     </div>
 
     <section class="cards-section">
-      <h2 class="grid-heading">Empower Your Journey with <span class="dreams">Aspira<img src="{{ url_for('static', filename='images/Screenshot_2025-10-05_115357-removebg-preview.png')}}" class="dreams-underline" alt=""></span></h2>
+      <h2 class="grid-heading">Empower Your Journey with <span class="dreams">Aspira<img src="{{ url_for('static', filename='images/Screenshot_2025-10-05_115357-removebg-preview.png')}}" class="dream-underline" alt=""></span></h2>
     <div class="grid-container">
       <div class="card">
         <div class="card-icon">
