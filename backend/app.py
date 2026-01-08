@@ -25,6 +25,22 @@ client = MongoClient(os.environ.get("MONGODB_URI"))
 db = client['aspiraDB']
 users_collection = db['users']
 profiles_collection = db['career_profiles'] 
+import threading
+
+def send_welcome_email_async(app, username, name):
+    with app.app_context():
+        try:
+            print("Sending welcome email to", username)
+            msg = Message(
+                subject="Welcome to Aspira!",
+                sender=app.config['MAIL_USERNAME'],
+                recipients=[username]
+            )
+            msg.html = render_template('welcome.html', name=name)
+            mail.send(msg)
+            print("Email sent successfully!")
+        except Exception as e:
+            print("Email failed:", e)
 
 # Routes
 @app.route('/')
@@ -50,32 +66,24 @@ def signup():
         password = request.form['password']
 
         if users_collection.find_one({"username": username}):
-            return "Email already exists"
-        
-        # Insert user in DB
+            return "Email already exists", 400
+
         users_collection.insert_one({
             "name": name,
             "username": username,
             "password": password
         })
 
-        try:
-            with app.app_context():
-                print("Sending welcome email to", username)
-                msg = Message(
-                    subject="Welcome to Aspira!",
-                    sender=app.config['MAIL_USERNAME'],
-                    recipients=[username]
-                )
-                msg.html = render_template('welcome.html', name=name)
-                mail.send(msg)
-                print("Email sent successfully!")
-        except Exception as e:
-            print("Error sending email:", e)
+        # 🔥 Send email in background (NON-BLOCKING)
+        threading.Thread(
+            target=send_welcome_email_async,
+            args=(app, username, name)
+        ).start()
 
         return redirect(url_for('dashboard'))
 
     return render_template('signup.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -122,7 +130,6 @@ def submit_profile():
             "rank": data.get("rank", None),
             "created_at": None
         }
-
         # Add timestamp
         import datetime
         profile["created_at"] = datetime.datetime.utcnow()
