@@ -199,9 +199,12 @@ ul.clean li {
     }
     
     body {
-      font-family: Inter, Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      font-family: 'Poppins', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       margin: 0;
-      background: var(--bg);
+      background:
+      radial-gradient(1200px 600px at 10% -10%, #e8f0ff 0%, transparent 40%),
+      radial-gradient(800px 400px at 90% 10%, #eef5ff 0%, transparent 35%),
+      var(--bg);
       color: var(--foreground);
       transition: background 0.3s ease, color 0.3s ease;
     }
@@ -300,11 +303,13 @@ ul.clean li {
     }
 
     .card {
-      background: var(--card);
+      background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%);
       padding: 24px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-card);
+      border-radius: 14px;
+      border: 1px solid rgba(214, 221, 234, 0.9);
+      box-shadow:
+      0 1px 2px rgba(16, 24, 40, 0.04),
+      0 8px 24px rgba(16, 24, 40, 0.06);
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
     }
@@ -313,7 +318,25 @@ ul.clean li {
       box-shadow: var(--shadow-card-hover);
       transform: translateY(-2px);
     }
-    
+    .card h2 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .card h2::after {
+      content: '';
+      height: 2px;
+      flex: 1;
+      margin-left: 12px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0.25;
+    }
+
     body.light .card {
       background: var(--light-card);
       border: 1px solid var(--light-border);
@@ -787,7 +810,7 @@ ul.clean li {
     }
     
     body.light .num {
-      color: var(--light-accent);
+      color: hsl(0deg 0% 100%);
     }
     
     strong {
@@ -798,6 +821,335 @@ ul.clean li {
     body.light strong {
       color: var(--light-text);
     }
+
+
+@media (max-width: 768px) {
+
+  /* 1. Absolute global lock */
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    font-family: 'Poppins', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  /* 2. App + main containers */
+  .app,
+  .main {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  #summary {
+    background: linear-gradient(135deg, #1b5cff, #407bff);
+    color: white;
+    border: none;
+  }
+
+  #summary .muted,
+  #summary strong {
+    color: rgba(255,255,255,0.9);
+  }
+
+  #summary .avatar {
+    background: rgba(255,255,255,0.15);
+  }
+
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 260px;
+    height: 100vh;
+    background: linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f8faff 100%
+    );
+    z-index: 2000; /* ABOVE everything */
+    padding-top: 24px;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(0);
+    box-shadow: 8px 0 30px rgba(0,0,0,0.18);
+  }
+
+  /* Open state */
+  .sidebar.open {
+    transform: translateX(280px);
+  }
+
+
+  /* 4. Overlay */
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 1500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .sidebar-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .sidebar .logo {
+    width: 150px;
+    margin: 0 auto 24px auto;
+    display: block;
+  }
+  .sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 14px;
+}
+
+.sidebar nav a {
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.25s ease;
+}
+.sidebar nav a:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(27,92,255,0.12),
+    rgba(27,92,255,0.03)
+  );
+  color: #1b5cff;
+}
+
+.sidebar nav a.active {
+  background: linear-gradient(
+    90deg,
+    rgba(27,92,255,0.18),
+    rgba(27,92,255,0.06)
+  );
+  color: #1b5cff;
+  font-weight: 700;
+}
+.hamburger {
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+.hamburger:hover {
+  background: rgba(27,92,255,0.08);
+}
+
+
+
+
+  /* 5. Topbar */
+  .topbar {
+    padding: 14px 16px;
+    max-width: 100%;
+  }
+
+  /* 6. FORCE ALL GRIDS TO 1 COLUMN */
+  .grid {
+    grid-template-columns: 1fr !important;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* 7. REMOVE GRID SPANS */
+  .col-2 {
+    grid-column: span 1 !important;
+  }
+
+  /* 8. CRITICAL: FLEX OVERFLOW FIX */
+  .card,
+  .card * {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    border-radius: 16px;
+  }
+  .card{
+    box-shadow:
+      0 2px 6px rgba(16, 24, 40, 0.08),
+      0 12px 28px rgba(16, 24, 40, 0.10);
+  }
+
+  /* 9. FIX INLINE WIDTHS (THIS WAS BREAKING IT) */
+  div[style*="width:320px"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 10. FLEX ROWS MUST WRAP */
+  .card > div[style*="display:flex"] {
+    flex-wrap: wrap !important;
+  }
+
+  /* 11. SVG & PROGRESS RING FIX */
+  svg,
+  .progress-ring {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* 12. CAREER GRID */
+  .career-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 13. COLLEGES GRID */
+  #collegesCards {
+    grid-template-columns: 1fr !important;
+    max-width: 100%;
+  }
+
+  /* 14. TIMELINE */
+  .timeline {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* 15. TEXT WRAP SAFETY */
+  h1, h2, h3, p, div, span {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  h1 {
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 15px;
+  }
+
+  h3 {
+    font-size: 13px;
+  }
+  .brand-logo {
+    height: 28px;      /* smaller for mobile */
+    max-width: 130px;
+  }
+  
+
+  /* Backdrop stays subtle */
+  .modal-backdrop {
+    align-items: flex-end; /* bottom-sheet style */
+    padding: 16px;
+  }
+
+  /* Main modal container */
+  .onboard {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    max-height: 88vh;          /* NOT full screen */
+    border-radius: 20px;
+    display: flex;             /* override grid */
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUpMobile 0.35s ease both;
+  }
+
+  /* Hide right panel on mobile */
+  .on-right {
+    display: none;
+  }
+
+  /* Left panel becomes full modal */
+  .on-left {
+    padding: 22px 20px;
+    border-right: none;
+    overflow-y: auto;          /* internal scroll */
+  }
+
+  /* Title refinement */
+  .on-left h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .on-left .muted {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  /* Form spacing */
+  .form-step h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .form-step label {
+    font-size: 13px;
+  }
+
+  .form-step input {
+    padding: 11px 12px;
+    font-size: 14px;
+  }
+
+  /* Buttons feel touch-friendly */
+  .form-actions {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(
+      to top,
+      #ffffff 70%,
+      rgba(255,255,255,0.9)
+    );
+    padding-top: 12px;
+    margin-top: 20px;
+  }
+
+  .form-actions .btn,
+  .form-actions .ghost {
+    padding: 12px 16px !important;
+    font-size: 14px;
+  }
+  @keyframes slideUpMobile {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+
+  
+
+}
+/* ===============================
+   TOPBAR BRAND / LOGO
+   =============================== */
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo {
+  height: 34px;          /* PERFECT for desktop navbar */
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+}
+
+
   </style>
 </head>
 <body>
@@ -826,12 +1178,19 @@ ul.clean li {
     <!-- MAIN CONTENT -->
     <div style="display:flex; flex-direction:column; min-height:100vh;">
       <div class="topbar">
-        <div style="display:flex; align-items:center">
-          <h1 style="font-size:20px;">Aspira</h1>
-          <div class="muted" style="margin-left:12px">— Personalized career guidance & roadmap</div>
+        <!-- Hamburger (mobile only) -->
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+
+        <div class="topbar-brand">
+          <img 
+            src="static/images/download.png" 
+            alt="Aspira Logo" 
+            class="brand-logo"
+          />
         </div>
+
         <div class="controls">
-          <div class="muted">Welcome back, <strong id="userName">Student</strong></div>
+          <div class="muted">Welcome back, <strong id="greeting1">Student</strong></div>
         </div>
       </div>
 
@@ -868,21 +1227,17 @@ ul.clean li {
                 <div id="courseDesc" class="muted">Choose a profile to see details</div>
 
                 <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap" id="skillChips"></div>
-<div class="skills-two-col">
-<div class="skill-section">
-  <strong>Technical Skills</strong>
-  <ul class="clean" id="techSkills"></ul>
-</div>
-
-<div class="skill-section">
-  <strong>Soft Skills</strong>
-  <ul class="clean" id="softSkills"></ul>
-</div>
-</div>
-
-
+                <div class="skills-two-col">
+                <div class="skill-section">
+                  <strong>Technical Skills</strong>
+                  <ul class="clean" id="techSkills"></ul>
+                </div>
+                <div class="skill-section">
+                  <strong>Soft Skills</strong>
+                  <ul class="clean" id="softSkills"></ul>
+                </div>
+                </div>
               </div>
-
               <div style="width:320px">
                 <div class="card" style="padding:12px; margin-bottom:10px">
                   <div class="muted">Average Salary (India)</div>
@@ -895,12 +1250,10 @@ ul.clean li {
               </div>
             </div>
           </div>
-
           <div class="card">
             <h2>Top Career Opportunities</h2>
             <div class="career-grid" id="careerGrid"></div>
           </div>
-
           <div class="card">
             <h2>Quick Roadmap</h2>
             <div class="timeline" id="quickRoadmap"></div>
@@ -1100,6 +1453,9 @@ if (!localStorage.getItem("aspira_user_logged_in")) {
   );
 
   document.getElementById("progressPercent").textContent = percent + "%";
+  document.getElementById("subtext").textContent = "Here’s your personalized career dashboard";
+  document.getElementById("avatar").textContent = (profile.firstName || "S")[0].toUpperCase();
+
 
   // Animate progress ring
   const circle = document.getElementById("progressCircle");
@@ -1136,6 +1492,7 @@ if (!localStorage.getItem("aspira_user_logged_in")) {
     function applyPrediction(pred){
   // Top summary
   document.getElementById('greeting').innerHTML = `<strong>Hi, ${profile.firstName}</strong>`;
+  document.getElementById('greeting1').innerHTML = `<strong>${profile.firstName}</strong>`;
   document.getElementById('predCourse').textContent = pred.predicted_course || '-';
   document.getElementById('courseTitle').textContent = pred.predicted_course || '-';
 
@@ -1223,7 +1580,16 @@ if (!localStorage.getItem("aspira_user_logged_in")) {
       if(profile && profile.prediction){ applyPrediction(profile.prediction); document.getElementById('onboardModal').style.display='none'; }
       else{ document.getElementById('onboardModal').style.display='flex'; buildForm(); updatePreview(); }
     })();
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const overlay = document.querySelector('.sidebar-overlay');
+
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('show');
+      document.body.classList.toggle('sidebar-open');
+}
 
   </script>
+  <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 </body>
 </html>
