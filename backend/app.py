@@ -73,6 +73,7 @@ def signup():
             "username": username,
             "password": password
         })
+        session['username'] = name
 
         # 🔥 Send email in background (NON-BLOCKING)
         threading.Thread(
